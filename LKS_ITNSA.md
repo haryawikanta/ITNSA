@@ -60,7 +60,7 @@ ping 8.8.8.8
 
 ---
 
-# 2. Repository Debian
+# 2. Repository Debian (OPSIONAL)
 
 ## Edit Repository
 

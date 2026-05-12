@@ -38,10 +38,7 @@ Contoh:
 
 ```conf
 auto ens33
-iface ens33 inet static
-    address 192.168.0.149/24
-    gateway 192.168.0.1
-    dns-nameservers 8.8.8.8
+iface ens33 inet dhcp
 ```
 
 ---

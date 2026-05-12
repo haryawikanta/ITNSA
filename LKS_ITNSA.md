@@ -410,7 +410,7 @@ ss -tunlp | grep :25
 ## Install Dovecot
 
 ```bash
-apt install dovecot-imapd dovecot-pop3d -y
+apt install dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd -y
 ```
 
 ---

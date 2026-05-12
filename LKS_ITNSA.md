@@ -579,7 +579,7 @@ newaliases
 ## Install Roundcube
 
 ```bash
-apt install roundcube roundcube-core roundcube-mysql -y
+apt install dovecot-imapd dovecot-pop3d dovecot-core -y
 ```
 
 ---

@@ -452,8 +452,9 @@ nano /etc/dovecot/conf.d/10-auth.conf
 Isi:
 
 ```conf
-disable_plaintext_auth = no
 auth_mechanisms = plain login
+ssl = no
+auth_allow_cleartext = yes
 ```
 
 ---

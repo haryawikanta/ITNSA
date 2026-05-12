@@ -687,7 +687,7 @@ Login:
 
 | Field    | Isi            |
 | -------- | -------------- |
-| Username | harya          |
+| Username | sesuai yang anda isi          |
 | Password | password Linux |
 
 ---

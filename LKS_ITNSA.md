@@ -60,7 +60,7 @@ ping 8.8.8.8
 
 ---
 
-# 2. Repository Debian (OPSIONAL) Kalau Sudah Bisa Install Tanpa Package ini tidak perlu 
+# 2. Repository Debian (OPSIONAL) Kalau Sudah Bisa Install Langsung Ini Tidak Perlu 
 
 ## Edit Repository
 

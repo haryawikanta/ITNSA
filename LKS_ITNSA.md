@@ -421,10 +421,20 @@ apt install dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd -y
 nano /etc/dovecot/conf.d/10-mail.conf
 ```
 
-Ubah:
+Pagar:
 
 ```conf
-mail_location = maildir:~/Maildir
+#mail_driver = mbox
+#mail_home = /home/%{user | username}
+#mail_path = %{home}/mail
+#mail_inbox_path = /var/mail/%{user}
+```
+
+Di dalam namespace inbox tambahkan:
+
+```conf
+mail_driver = maildir
+mail_path = ~/Maildir
 ```
 
 ---

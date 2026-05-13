@@ -97,6 +97,12 @@ Hasil yang benar:
 
 # 5. 🌐 Konfigurasi Apache HTTPS
 
+Nyalakan module ssl:
+```bash
+a2enmod ssl
+a2ensite default-ssl.conf
+```
+
 Edit file:
 
 ```bash

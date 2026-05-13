@@ -60,7 +60,7 @@ ping 8.8.8.8
 
 ---
 
-# 2. Repository Debian (OPSIONAL) Kalau Sudah Bisa Install Langsung Ini Tidak Perlu 
+# 2. Repository Debian
 
 ## Edit Repository
 
@@ -113,6 +113,7 @@ nano /etc/ssh/sshd_config
 Ubah:
 
 ```conf
+port 2026
 PermitRootLogin yes
 PasswordAuthentication yes
 ```
@@ -130,12 +131,77 @@ systemctl restart ssh
 ## Verifikasi
 
 ```bash
-ss -tunlp | grep :22
+ss -tunlp | grep :2026 (opsional)
 ```
 
 ---
 
-# 4. Konfigurasi DNS Server (Bind9)
+# 4. Konfigurasi Apache Web Server
+
+## Install Apache
+
+```bash
+apt install apache2 -y
+```
+
+---
+
+## Cek Service
+
+```bash
+systemctl status apache2
+```
+
+---
+
+## Membuat Virtual Host
+
+```bash
+nano /etc/apache2/sites-available/web1.conf
+```
+
+Isi:
+
+```apache
+<VirtualHost *:80>
+
+    ServerName www.itnsa.local
+    DocumentRoot /var/www/web1
+
+</VirtualHost>
+```
+
+---
+
+## Membuat Document Root
+
+```bash
+mkdir -p /var/www/web1
+```
+
+---
+
+## Membuat Index
+
+```bash
+echo "WEB ITNSA" > /var/www/web1/index.html
+```
+
+---
+
+## Enable Site
+
+```bash
+a2ensite web1.conf
+```
+## Disable Site Default
+
+```bash
+a2dissite 000-default.conf
+```
+---
+
+# 5. Konfigurasi DNS Server (Bind9)
 
 ## Install Bind9
 
@@ -170,7 +236,6 @@ zone "0.168.192.in-addr.arpa" {
 ## Forward Zone
 
 ```bash
-cp /etc/bind/db.local /etc/bind/db.itnsa.local
 nano /etc/bind/db.itnsa.local
 ```
 
@@ -197,7 +262,6 @@ www     IN      A       192.168.0.149
 ## Reverse Zone
 
 ```bash
-cp /etc/bind/db.127 /etc/bind/db.192
 nano /etc/bind/db.192
 ```
 
@@ -237,66 +301,6 @@ nslookup mail.itnsa.local
 
 ---
 
-# 5. Konfigurasi Apache Web Server
-
-## Install Apache
-
-```bash
-apt install apache2 -y
-```
-
----
-
-## Cek Service
-
-```bash
-systemctl status apache2
-```
-
----
-
-## Membuat Virtual Host
-
-```bash
-nano /etc/apache2/sites-available/web1.conf
-```
-
-Isi:
-
-```apache
-<VirtualHost *:80>
-
-    ServerName mail.itnsa.local
-    DocumentRoot /var/www/web1
-
-</VirtualHost>
-```
-
----
-
-## Membuat Document Root
-
-```bash
-mkdir -p /var/www/web1
-```
-
----
-
-## Membuat Index
-
-```bash
-echo "WEB ITNSA" > /var/www/web1/index.html
-```
-
----
-
-## Enable Site
-
-```bash
-a2ensite web1.conf
-```
-
----
 
 ## Disable Default Site
 
@@ -364,6 +368,20 @@ EXIT;
 ```bash
 apt install postfix mailutils -y
 ```
+Pilih opsi opsi ini saat masuk ke package configuration:
+
+| Opsi                               | Isi           |
+| ---------------------------------- | ------------- |
+| General type                       | Internet Site |
+| System mail name                   | itnsa.local   |
+| Root and postmaster mail recipient | harya         |
+| Other destinations                 | default       |
+| Force sync updates                 | No            |
+| Local networks                     | default       |
+| Mailbox size limit                 | 0             |
+| Local address extension            | +             |
+| Internet protocols                 | ipv4          |
+
 
 ---
 
@@ -380,7 +398,7 @@ Tambahkan dan pagar bagian ini:
 
 #mydestination = $myhostname, itnsa.local, linsrv1, localhost.localdomain, localhost
 
-myhostname = mail.itnsa.local
+myhostname = www.itnsa.local
 mydomain = itnsa.local
 myorigin = /etc/mailname
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
@@ -589,7 +607,7 @@ newaliases
 ## Install Roundcube
 
 ```bash
-apt install dovecot-imapd dovecot-pop3d dovecot-core -y
+apt install roundcube roundcube-core roundcube-mysql -y
 ```
 
 ---
@@ -695,7 +713,7 @@ Login:
 
 | Field    | Isi            |
 | -------- | -------------- |
-| Username | sesuai yang anda isi          |
+| Username | nama sesuai yang diisi      |
 | Password | password Linux |
 
 ---
@@ -743,5 +761,3 @@ Lab Debian 13 berhasil dikonfigurasi sebagai:
 * IMAP Server
 * Webmail Server
 * TLS/SSL Mail Server
-
-Semua service berhasil dijalankan dan diuji menggunakan CLI maupun GUI.
